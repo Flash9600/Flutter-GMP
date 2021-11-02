@@ -7,6 +7,6 @@ class FilmsPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListPageBuilder(itemContent: Text('Films'));
+    return const ListPageBuilder(itemContent: Text('Films'));
   }
 }

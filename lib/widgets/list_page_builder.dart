@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 class ListPageBuilder extends StatelessWidget {
-  Widget itemContent;
+  final Widget itemContent;
 
-  ListPageBuilder({
+  const ListPageBuilder({
     Key? key,
     required this.itemContent,
   }) : super(key: key);
@@ -24,10 +24,10 @@ class ListPageBuilder extends StatelessWidget {
             ),
           ),
           content: ListView.builder(
+            itemCount: 2,
             itemBuilder: (context, filmIndex) {
-              return Container(
-                color: Colors.blue,
-                child: itemContent,
+              return ListTile(
+                title: itemContent,
               );
             },
           ),
