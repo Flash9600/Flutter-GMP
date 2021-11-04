@@ -12,6 +12,7 @@ class ListPageBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       itemCount: 2,
       itemBuilder: (context, dateIndex) {
         return StickyHeader(
@@ -24,6 +25,7 @@ class ListPageBuilder extends StatelessWidget {
             ),
           ),
           content: ListView.builder(
+            shrinkWrap: true,
             itemCount: 2,
             itemBuilder: (context, filmIndex) {
               return ListTile(
