@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-
-import '../list_page_builder.dart';
+import 'package:flutter_gmp/view_models/film_view_model.dart';
+import 'package:flutter_gmp/widgets/movies_list/movie_list.dart';
 
 class FavoritePageWidget extends StatelessWidget {
-  const FavoritePageWidget({Key? key}) : super(key: key);
+  final List<FilmsListViewModel> viewModelList;
+
+  const FavoritePageWidget({
+    Key? key,
+    required this.viewModelList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const ListPageBuilder(itemContent: Text('Favorite'));
+    return FilmsListWidget(
+      viewModelList: viewModelList,
+    );
   }
 }
