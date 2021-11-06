@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
 import 'package:flutter_gmp/widgets/common/buttons.dart';
+import 'package:flutter_gmp/widgets/detail_page/detail_page.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class FilmsListWidget extends StatelessWidget {
@@ -55,35 +56,43 @@ class FilmsItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailPageWidget(filmViewModel: filmViewModel),
+        ),
       ),
-      child: Row(
-        children: [
-          Column(
-            children: [
-              SizedBox(
-                height: 120,
-                child: Image.network(filmViewModel.imageUrl),
-              ),
-              Text(filmViewModel.rating),
-            ],
-          ),
-          Column(
-            children: [
-              Text(filmViewModel.title),
-              Text(filmViewModel.description),
-              const Divider(),
-              Row(
-                children: [
-                  TileTextButton.addToFavorites(onTap: () {}),
-                  TileTextButton.share(onTap: () {}),
-                ],
-              )
-            ],
-          )
-        ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+        ),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  height: 120,
+                  child: Image.network(filmViewModel.imageUrl),
+                ),
+                Text(filmViewModel.rating),
+              ],
+            ),
+            Column(
+              children: [
+                Text(filmViewModel.title),
+                Text(filmViewModel.description),
+                const Divider(),
+                Row(
+                  children: [
+                    TileTextButton.addToFavorites(onTap: () {}),
+                    TileTextButton.share(onTap: () {}),
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
