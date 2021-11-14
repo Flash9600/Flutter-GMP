@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
-import 'package:flutter_gmp/widgets/movies_list/movie_list.dart';
+import 'package:flutter_gmp/widgets/films_list/films_list.dart';
 
 class FilmsPageWidget extends StatelessWidget {
   final List<FilmsListViewModel> viewModelList;
