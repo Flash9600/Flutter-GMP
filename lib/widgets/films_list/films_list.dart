@@ -34,7 +34,7 @@ class FilmsListWidget extends StatelessWidget {
             shrinkWrap: true,
             itemCount: viewModelList[dateIndex].filmsList.length,
             itemBuilder: (context, filmIndex) {
-              return FilmsItemWidget(
+              return _FilmsItemWidget(
                 filmViewModel: viewModelList[dateIndex].filmsList[filmIndex],
               );
             },
@@ -46,10 +46,10 @@ class FilmsListWidget extends StatelessWidget {
   }
 }
 
-class FilmsItemWidget extends StatelessWidget {
+class _FilmsItemWidget extends StatelessWidget {
   final FilmViewModel filmViewModel;
 
-  const FilmsItemWidget({
+  const _FilmsItemWidget({
     Key? key,
     required this.filmViewModel,
   }) : super(key: key);
@@ -73,9 +73,10 @@ class FilmsItemWidget extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 120,
-                  child: Image.network(filmViewModel.imageUrl),
+                  child: Image.network('https://image.tmdb.org/t/p/w500' +
+                      (filmViewModel.imageUrl ?? '')),
                 ),
-                Text(filmViewModel.rating),
+                Text(filmViewModel.rating.toString()),
               ],
             ),
             Column(

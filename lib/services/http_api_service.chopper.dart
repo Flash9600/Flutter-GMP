@@ -17,24 +17,17 @@ class _$HttpApiService extends HttpApiService {
   final definitionType = HttpApiService;
 
   @override
-  Future<Response<dynamic>> getActualFilms() {
-    final $url = '/3/movie/now_playing';
-    final $headers = {
-      'api_key': '5f3db21eab1266ec44623577da01412d',
-    };
-
-    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+  Future<Response<dynamic>> _getActualFilmsResponse() {
+    final $url =
+        '/3/movie/now_playing?api_key=5f3db21eab1266ec44623577da01412d';
+    final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> getFilm(int id) {
-    final $url = '/3/movie/${id}';
-    final $headers = {
-      'api_key': '5f3db21eab1266ec44623577da01412d',
-    };
-
-    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+  Future<Response<dynamic>> _getFilmResponse(int id) {
+    final $url = '/3/movie/${id}?api_key=5f3db21eab1266ec44623577da01412d';
+    final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 }

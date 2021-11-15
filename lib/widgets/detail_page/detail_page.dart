@@ -19,10 +19,12 @@ class DetailPageWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 300,
-                child: Image.network(filmViewModel.imageUrl),
-              ),
+              if (filmViewModel.imageUrl != null)
+                SizedBox(
+                  height: 300,
+                  child: Image.network('https://image.tmdb.org/t/p/w500' +
+                      filmViewModel.imageUrl!),
+                ),
               const SizedBox(height: 30),
               Text(filmViewModel.title),
               const SizedBox(height: 20),
@@ -30,8 +32,8 @@ class DetailPageWidget extends StatelessWidget {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Text(filmViewModel.rating),
-                  Text(filmViewModel.reliseDate.toString().substring(0, 10)),
+                  Text(filmViewModel.rating.toString()),
+                  Text(filmViewModel.releaseDate.toString().substring(0, 10)),
                 ],
               ),
             ],
