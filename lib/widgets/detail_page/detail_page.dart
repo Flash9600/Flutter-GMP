@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gmp/services/http_api_service.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
+import 'package:flutter_gmp/widgets/common/images.dart';
 
 class DetailPageWidget extends StatelessWidget {
   final FilmViewModel filmViewModel;
@@ -19,11 +21,10 @@ class DetailPageWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (filmViewModel.imageUrl != null)
-                SizedBox(
+              if (filmViewModel.posterPath != null)
+                FilmImage(
+                  path: filmViewModel.posterPath,
                   height: 300,
-                  child: Image.network('https://image.tmdb.org/t/p/w500' +
-                      filmViewModel.imageUrl!),
                 ),
               const SizedBox(height: 30),
               Text(filmViewModel.title),

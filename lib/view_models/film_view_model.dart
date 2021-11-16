@@ -4,8 +4,7 @@ part 'film_view_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class FilmViewModel {
-  @JsonKey(name: 'poster_path')
-  final String? imageUrl;
+  final String? posterPath;
   @JsonKey(name: 'overview')
   final String description;
   final DateTime releaseDate;
@@ -17,7 +16,7 @@ class FilmViewModel {
 
   FilmViewModel({
     required this.id,
-    required this.imageUrl,
+    required this.posterPath,
     required this.description,
     required this.rating,
     required this.releaseDate,
@@ -34,6 +33,7 @@ class FilmViewModel {
 class FilmsListViewModel {
   final DateTime date;
   final List<FilmViewModel> filmsList;
+
   const FilmsListViewModel({
     required this.date,
     required this.filmsList,
@@ -41,5 +41,26 @@ class FilmsListViewModel {
 
   void addFilmsToList(FilmViewModel film) {
     filmsList.add(film);
+  }
+
+  static List<FilmsListViewModel> sortFilmsListToViewModel(
+      List<FilmViewModel> films) {
+    List<FilmsListViewModel> listViewModel = [];
+
+    for (var viewModel in films) {
+      if (films.indexOf(viewModel) > 0 &&
+          viewModel.releaseDate.month == listViewModel.last.date.month) {
+        listViewModel.last.addFilmsToList(viewModel);
+        continue;
+      }
+      listViewModel.add(FilmsListViewModel(
+          date: viewModel.releaseDate, filmsList: [viewModel]));
+    }
+
+    for (var viewModel in listViewModel) {
+      viewModel.filmsList.sort((filmFirst, filmSecond) =>
+          filmFirst.rating.compareTo(filmSecond.rating));
+    }
+    return listViewModel;
   }
 }

@@ -7,12 +7,14 @@ import 'package:flutter_gmp/view_models/film_view_model.dart';
 part 'http_api_service.chopper.dart';
 
 const _kApiKey = '5f3db21eab1266ec44623577da01412d';
+const _kBaseUrl = 'https://api.themoviedb.org';
+const _kImageUrl = 'https://image.tmdb.org/t/p/w500';
 
 @ChopperApi(baseUrl: '/3/movie')
 abstract class HttpApiService extends ChopperService {
   static HttpApiService create() {
     final client = ChopperClient(
-      baseUrl: 'https://api.themoviedb.org',
+      baseUrl: _kBaseUrl,
       services: [
         _$HttpApiService(),
       ],
@@ -41,28 +43,17 @@ abstract class HttpApiService extends ChopperService {
       if (response.isSuccessful) {
         final body = json.decode(response.bodyString) as Map<String, dynamic>;
         final playingFilmsResponse = PlayingFilmsResponse.fromJson(body);
-        final films = playingFilmsResponse.results;
-        films.sort((filmFirst, filmSecond) =>
-            filmFirst.releaseDate.compareTo(filmSecond.releaseDate));
 
-        for (var viewModel in films) {
-          if (films.indexOf(viewModel) > 0 &&
-              viewModel.releaseDate.month == listViewModel.last.date.month) {
-            listViewModel.last.addFilmsToList(viewModel);
-            continue;
-          }
-          listViewModel.add(FilmsListViewModel(
-              date: viewModel.releaseDate, filmsList: [viewModel]));
-        }
-
-        for (var viewModel in listViewModel) {
-          viewModel.filmsList.sort((filmFirst, filmSecond) =>
-              filmFirst.rating.compareTo(filmSecond.rating));
-        }
+        listViewModel = FilmsListViewModel.sortFilmsListToViewModel(
+            playingFilmsResponse.results);
       }
     } catch (e) {
       print(e);
     }
     return listViewModel;
+  }
+
+  static String getImageUrl(String? posterPath) {
+    return posterPath != null ? _kImageUrl + posterPath : '';
   }
 }

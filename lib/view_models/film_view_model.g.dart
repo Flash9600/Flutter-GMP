@@ -9,7 +9,7 @@ part of 'film_view_model.dart';
 FilmViewModel _$FilmViewModelFromJson(Map<String, dynamic> json) =>
     FilmViewModel(
       id: json['id'] as int,
-      imageUrl: json['poster_path'] as String?,
+      posterPath: json['poster_path'] as String?,
       description: json['overview'] as String,
       rating: (json['vote_average'] as num).toDouble(),
       releaseDate: DateTime.parse(json['release_date'] as String),
@@ -19,7 +19,7 @@ FilmViewModel _$FilmViewModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$FilmViewModelToJson(FilmViewModel instance) =>
     <String, dynamic>{
-      'poster_path': instance.imageUrl,
+      'poster_path': instance.posterPath,
       'overview': instance.description,
       'release_date': instance.releaseDate.toIso8601String(),
       'id': instance.id,

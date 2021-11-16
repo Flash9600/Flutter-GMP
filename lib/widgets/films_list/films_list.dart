@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
 import 'package:flutter_gmp/widgets/common/buttons.dart';
+import 'package:flutter_gmp/widgets/common/images.dart';
 import 'package:flutter_gmp/widgets/detail_page/detail_page.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -71,10 +72,9 @@ class _FilmsItemWidget extends StatelessWidget {
           children: [
             Column(
               children: [
-                SizedBox(
+                FilmImage(
+                  path: filmViewModel.posterPath,
                   height: 120,
-                  child: Image.network('https://image.tmdb.org/t/p/w500' +
-                      (filmViewModel.imageUrl ?? '')),
                 ),
                 Text(filmViewModel.rating.toString()),
               ],
