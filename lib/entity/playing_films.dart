@@ -7,14 +7,12 @@ part 'playing_films.g.dart';
 class PlayingFilmsResponse {
   final int page;
   final List<FilmViewModel> results;
-  final Map<String, DateTime> dates;
   final int totalPages;
   final int totalResults;
 
   PlayingFilmsResponse({
     required this.page,
     required this.results,
-    required this.dates,
     required this.totalPages,
     required this.totalResults,
   });
