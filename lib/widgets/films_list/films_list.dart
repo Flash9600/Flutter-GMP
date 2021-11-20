@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
-import 'package:flutter_gmp/widgets/common/buttons.dart';
 import 'package:flutter_gmp/widgets/common/images.dart';
 import 'package:flutter_gmp/widgets/detail_page/detail_page.dart';
+import 'package:flutter_gmp/widgets/films_list/buttons_wrapper.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class FilmsListWidget extends StatelessWidget {
@@ -68,6 +68,7 @@ class _FilmsItemWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.grey.shade300,
         ),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             Column(
@@ -79,19 +80,25 @@ class _FilmsItemWidget extends StatelessWidget {
                 Text(filmViewModel.rating.toString()),
               ],
             ),
-            Column(
-              children: [
-                Text(filmViewModel.title),
-                Text(filmViewModel.description),
-                const Divider(),
-                Row(
+            const SizedBox(width: 10),
+            Expanded(
+              child: Container(
+                constraints: const BoxConstraints(maxHeight: 160),
+                child: Column(
                   children: [
-                    TileTextButton.addToFavorites(onTap: () {}),
-                    TileTextButton.share(onTap: () {}),
+                    Text(filmViewModel.title),
+                    Expanded(
+                      child: Text(filmViewModel.description,
+                          overflow: TextOverflow.fade),
+                    ),
+                    ButtonsWrapperWidget(
+                      addToFavoritesOnTap: () {},
+                      shareOnTap: () {},
+                    )
                   ],
-                )
-              ],
-            )
+                ),
+              ),
+            ),
           ],
         ),
       ),
