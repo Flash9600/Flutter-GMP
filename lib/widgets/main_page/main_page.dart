@@ -29,10 +29,11 @@ class _TabsWidget extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            FilmsPageWidget(viewModelList: CreateFilms().filmsList),
-            FavoritePageWidget(viewModelList: CreateFilms().filmsList),
+            FilmsPageWidget(),
+            FilmsPageWidget(),
+            //FavoritePageWidget(),
           ],
         ),
       ),
@@ -40,103 +41,102 @@ class _TabsWidget extends StatelessWidget {
   }
 }
 
-class CreateFilms {
-  List<FilmsListViewModel> get filmsList => _filmsListViewModel();
+// class CreateFilms {
+  // static final _films = [
+  //   FilmViewModel(
+  //     title: 'Film1',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-07-20 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film2',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-08-20 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film3',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-09-20 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film4',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-07-10 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film5',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-08-10 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film6',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-09-10 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film7',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-07-05 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film8',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-08-05 20:18:04Z"),
+  //   ),
+  //   FilmViewModel(
+  //     title: 'Film9',
+  //     description: 'dewdewdwedewfer',
+  //     rating: '5.1',
+  //     imageUrl:
+  //         'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
+  //     releaseDate: DateTime.parse("2020-09-05 20:18:04Z"),
+  //   ),
+  // ];
 
-  final _films = [
-    FilmViewModel(
-      title: 'Film1',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-07-20 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film2',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-08-20 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film3',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-09-20 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film4',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-07-10 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film5',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-08-10 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film6',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-09-10 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film7',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-07-05 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film8',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-08-05 20:18:04Z"),
-    ),
-    FilmViewModel(
-      title: 'Film9',
-      description: 'dewdewdwedewfer',
-      rating: '5.1',
-      imageUrl:
-          'https://x-film.vip/uploads/posts/2021-09/1632721425-1830899868-finch.jpg',
-      reliseDate: DateTime.parse("2020-09-05 20:18:04Z"),
-    ),
-  ];
+//   static List<FilmsListViewModel> filmsListViewModel(
+//       List<FilmViewModel>? films) {
+//     List<FilmsListViewModel> listViewModel = [];
+//     filmList.sort((filmFirst, filmSecond) =>
+//         filmFirst.releaseDate.compareTo(filmSecond.releaseDate));
 
-  List<FilmsListViewModel> _filmsListViewModel() {
-    List<FilmsListViewModel> listViewModel = [];
-    _films.sort((filmFirst, filmSecond) =>
-        filmFirst.reliseDate.compareTo(filmSecond.reliseDate));
+//     for (var viewModel in filmList) {
+//       if (filmList.indexOf(viewModel) > 0 &&
+//           viewModel.releaseDate.month == listViewModel.last.date.month) {
+//         listViewModel.last.addFilmsToList(viewModel);
+//         continue;
+//       }
+//       listViewModel.add(FilmsListViewModel(
+//           date: viewModel.releaseDate, filmsList: [viewModel]));
+//     }
 
-    for (var viewModel in _films) {
-      if (_films.indexOf(viewModel) > 0 &&
-          viewModel.reliseDate.month == listViewModel.last.date.month) {
-        listViewModel.last.addFilmsToList(viewModel);
-        continue;
-      }
-      listViewModel.add(FilmsListViewModel(
-          date: viewModel.reliseDate, filmsList: [viewModel]));
-    }
-
-    for (var viewModel in listViewModel) {
-      viewModel.filmsList.sort((filmFirst, filmSecond) =>
-          filmFirst.rating.compareTo(filmSecond.rating));
-    }
-    return listViewModel;
-  }
-}
+//     for (var viewModel in listViewModel) {
+//       viewModel.filmsList.sort((filmFirst, filmSecond) =>
+//           filmFirst.rating.compareTo(filmSecond.rating));
+//     }
+//     return listViewModel;
+//   }
+// }
