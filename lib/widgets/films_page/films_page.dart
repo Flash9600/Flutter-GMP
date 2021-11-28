@@ -1,9 +1,7 @@
-import 'dart:convert';
-
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gmp/services/http_api_service.dart';
-import 'package:flutter_gmp/view_models/film_view_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gmp/bloc/films_bloc/films_bloc.dart';
+import 'package:flutter_gmp/widgets/common/error.dart';
 import 'package:flutter_gmp/widgets/films_list/films_list.dart';
 
 class FilmsPageWidget extends StatelessWidget {
@@ -13,19 +11,18 @@ class FilmsPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final apiService = HttpApiService.create();
-
-    return FutureBuilder<List<FilmsListViewModel>>(
-        future: apiService.getActualFilmsList(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data != null) {
-            return FilmsListWidget(viewModelList: snapshot.data!);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+    return BlocBuilder<FilmsBloc, FilmsState>(builder: (context, state) {
+      if (state is FilmsStateSuccess) {
+        return FilmsListWidget(viewModelList: state.filmsListView);
+      } else if (state is FilmsStateProgress) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state is FilmsStateFailed) {
+        return const ErrorPageWidget('Error');
+      } else {
+        return const ErrorPageWidget('Somthing went wrong');
+      }
+    });
   }
 }

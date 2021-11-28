@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gmp/bloc/films_bloc/films_bloc.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
 import 'package:flutter_gmp/widgets/common/images.dart';
 import 'package:flutter_gmp/widgets/detail_page/detail_page.dart';
@@ -57,6 +59,8 @@ class _FilmsItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<FilmsBloc>(context);
+
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -92,7 +96,9 @@ class _FilmsItemWidget extends StatelessWidget {
                           overflow: TextOverflow.fade),
                     ),
                     ButtonsWrapperWidget(
-                      addToFavoritesOnTap: () {},
+                      addToFavoritesOnTap: () {
+                        bloc.add(AddFilmToFavoriteEvent(id: filmViewModel.id));
+                      },
                       shareOnTap: () {},
                     )
                   ],

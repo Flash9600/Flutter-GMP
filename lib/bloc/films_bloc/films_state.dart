@@ -1,31 +1,52 @@
 part of 'films_bloc.dart';
 
-enum FilmsStatus { initial, success, failure }
+abstract class FilmsState extends Equatable {
+  const FilmsState() : super();
 
-class FilmsState extends Equatable {
-  final List<FilmsListViewModel> films;
-  final FilmsStatus status;
+  @override
+  List<Object?> get props => [];
+}
 
-  const FilmsState({
-    this.status = FilmsStatus.initial,
-    this.films = const <FilmsListViewModel>[],
-  });
+class FilmsStateProgress extends FilmsState {
+  const FilmsStateProgress() : super();
+}
+
+class FilmsStateFailed extends FilmsState {
+  const FilmsStateFailed() : super();
+}
+
+class FilmsStateInit extends FilmsState {
+  const FilmsStateInit() : super();
+}
+
+class FilmsStateSuccess extends FilmsState {
+  final List<FilmViewModel> filmsList;
+  final List<FilmViewModel> favoriteFilms;
+  final List<FilmsListViewModel> filmsListView;
+  final List<FilmsListViewModel> favoriteFilmsView;
+
+  const FilmsStateSuccess({
+    this.filmsList = const <FilmViewModel>[],
+    this.favoriteFilms = const <FilmViewModel>[],
+    this.filmsListView = const <FilmsListViewModel>[],
+    this.favoriteFilmsView = const <FilmsListViewModel>[],
+  }) : super();
+
+  @override
+  List<Object> get props =>
+      [filmsList, favoriteFilms, filmsListView, favoriteFilmsView];
 
   FilmsState copyWith({
-    FilmsStatus? status,
-    List<FilmsListViewModel>? films,
+    List<FilmViewModel>? filmsList,
+    List<FilmViewModel>? favoriteFilms,
+    List<FilmsListViewModel>? filmsListView,
+    List<FilmsListViewModel>? favoriteFilmsView,
   }) {
-    return FilmsState(
-      status: status ?? this.status,
-      films: films ?? this.films,
+    return FilmsStateSuccess(
+      filmsList: filmsList ?? this.filmsList,
+      favoriteFilms: favoriteFilms ?? this.favoriteFilms,
+      filmsListView: filmsListView ?? this.filmsListView,
+      favoriteFilmsView: favoriteFilmsView ?? this.favoriteFilmsView,
     );
   }
-
-  @override
-  String toString() {
-    return 'FilmsState { status: $status, films: ${films.length} }';
-  }
-
-  @override
-  List<Object> get props => [status, films];
 }

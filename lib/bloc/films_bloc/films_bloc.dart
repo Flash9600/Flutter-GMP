@@ -1,7 +1,5 @@
-import 'dart:isolate';
-
+import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gmp/services/http_api_service.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
 
@@ -11,27 +9,71 @@ part 'films_state.dart';
 class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
   final HttpApiService httpApiService;
 
-  FilmsBloc({required this.httpApiService}) : super(const FilmsState()) {
-    on<_FilmsFetchedEvent>(_onFilmsFetched);
+  FilmsBloc({required this.httpApiService}) : super(const FilmsStateInit()) {
+    on<FilmsFetchedEvent>(_onFilmsFetched);
+    on<AddFilmToFavoriteEvent>(_addFilmToFavorite);
+    on<RemoveFilmFromFavoriteEvent>(_removeFilmFromFavorite);
+    add(const FilmsFetchedEvent());
   }
 
   Future<void> _onFilmsFetched(
-      _FilmsFetchedEvent event, Emitter<FilmsState> emit) async {
+      FilmsFetchedEvent event, Emitter<FilmsState> emit) async {
+    emit(const FilmsStateProgress());
     try {
-      if (state.status == FilmsStatus.initial) {
-        final films = _fetchFilms();
-        return emit(state.copyWith(
-          status: FilmsStatus.success,
-          films: films,
-        ));
-      }
+      final films = await httpApiService.getActualFilmsList();
+      return emit(FilmsStateSuccess(
+        filmsList: films,
+        filmsListView: mapFilmsListToViewModel(films),
+      ));
     } catch (e) {
       print(e);
+      return emit(const FilmsStateFailed());
     }
   }
 
-  _addFilmToFavorite() {}
-  _removeFilmFromFavorite() {}
+  Future<void> _addFilmToFavorite(
+      AddFilmToFavoriteEvent event, Emitter<FilmsState> emit) async {
+    final succesState = state as FilmsStateSuccess;
+    final favoriteFilms = [...succesState.favoriteFilms];
+    final film =
+        succesState.filmsList.where((film) => film.id == event.id).first;
+    film.isFavorite = true;
+    favoriteFilms.add(film);
 
-  _fetchFilms() {}
+    return emit(succesState.copyWith(
+      favoriteFilms: favoriteFilms,
+      favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
+    ));
+  }
+
+  Future<void> _removeFilmFromFavorite(
+      RemoveFilmFromFavoriteEvent event, Emitter<FilmsState> emit) async {
+    final succesState = state as FilmsStateSuccess;
+    final favoriteFilms = [...succesState.favoriteFilms];
+    favoriteFilms.removeWhere((film) => film.id == event.id);
+    return emit(succesState.copyWith(
+      favoriteFilms: favoriteFilms,
+      favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
+    ));
+  }
+
+  List<FilmsListViewModel> mapFilmsListToViewModel(List<FilmViewModel> films) {
+    List<FilmsListViewModel> listViewModel = [];
+
+    for (var viewModel in films) {
+      if (films.indexOf(viewModel) > 0 &&
+          viewModel.releaseDate.month == listViewModel.last.date.month) {
+        listViewModel.last.addFilmsToList(viewModel);
+        continue;
+      }
+      listViewModel.add(FilmsListViewModel(
+          date: viewModel.releaseDate, filmsList: [viewModel]));
+    }
+
+    for (var viewModel in listViewModel) {
+      viewModel.filmsList.sort((filmFirst, filmSecond) =>
+          filmFirst.rating.compareTo(filmSecond.rating));
+    }
+    return listViewModel;
+  }
 }

@@ -3,25 +3,25 @@ part of 'films_bloc.dart';
 abstract class FilmsEvent {
   const FilmsEvent();
 
-  const factory FilmsEvent.fetch() = _FilmsFetchedEvent;
+  const factory FilmsEvent.fetch() = FilmsFetchedEvent;
   const factory FilmsEvent.addToFavorite({required int id}) =
-      _AddFilmToFavoriteEvent;
+      AddFilmToFavoriteEvent;
   const factory FilmsEvent.removeFromFavorite({required int id}) =
-      _RemoveFilmFromFavoriteEvent;
+      RemoveFilmFromFavoriteEvent;
 }
 
-class _FilmsFetchedEvent extends FilmsEvent {
-  const _FilmsFetchedEvent();
+class FilmsFetchedEvent extends FilmsEvent {
+  const FilmsFetchedEvent();
 }
 
-class _AddFilmToFavoriteEvent extends FilmsEvent {
+class AddFilmToFavoriteEvent extends FilmsEvent {
   final int id;
 
-  const _AddFilmToFavoriteEvent({required this.id});
+  const AddFilmToFavoriteEvent({required this.id});
 }
 
-class _RemoveFilmFromFavoriteEvent extends FilmsEvent {
+class RemoveFilmFromFavoriteEvent extends FilmsEvent {
   final int id;
 
-  const _RemoveFilmFromFavoriteEvent({required this.id});
+  const RemoveFilmFromFavoriteEvent({required this.id});
 }
