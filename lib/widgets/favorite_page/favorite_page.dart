@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gmp/bloc/films_bloc/films_bloc.dart';
+import 'package:flutter_gmp/generated/l10n.dart';
 import 'package:flutter_gmp/widgets/common/error.dart';
 import 'package:flutter_gmp/widgets/films_list/films_list.dart';
 
@@ -17,9 +18,9 @@ class FavoritePageWidget extends StatelessWidget {
           child: CircularProgressIndicator(),
         );
       } else if (state is FilmsStateFailed) {
-        return const ErrorPageWidget('Error');
+        return ErrorPageWidget(S.of(context).error);
       } else {
-        return const ErrorPageWidget('Somthing went wrong');
+        return ErrorPageWidget(S.of(context).somethingWentWrong);
       }
     });
   }

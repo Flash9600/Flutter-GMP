@@ -15,6 +15,7 @@ FilmViewModel _$FilmViewModelFromJson(Map<String, dynamic> json) =>
       releaseDate: DateTime.parse(json['release_date'] as String),
       backdropPath: json['backdrop_path'] as String?,
       title: json['title'] as String,
+      isFavorite: json['is_favorite'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$FilmViewModelToJson(FilmViewModel instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$FilmViewModelToJson(FilmViewModel instance) =>
       'title': instance.title,
       'backdrop_path': instance.backdropPath,
       'vote_average': instance.rating,
+      'is_favorite': instance.isFavorite,
     };

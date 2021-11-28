@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gmp/bloc/films_bloc/films_bloc.dart';
+import 'package:flutter_gmp/generated/l10n.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
 import 'package:flutter_gmp/widgets/common/images.dart';
 import 'package:flutter_gmp/widgets/detail_page/detail_page.dart';
@@ -79,7 +80,7 @@ class _FilmsItemWidget extends StatelessWidget {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               icon: Icons.delete,
-              label: 'Delete',
+              label: S.of(context).delete,
             ),
           ],
           motion: const BehindMotion(),

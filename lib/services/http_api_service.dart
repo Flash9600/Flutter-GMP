@@ -28,16 +28,17 @@ abstract class HttpApiService extends ChopperService {
     path: '/now_playing',
   )
   Future<Response> _getActualFilmsResponse(
-      {@Query('api_key') String key = _kApiKey});
+      {@Query('api_key') String key = _kApiKey,
+      @Query('language') String localize = 'ru-RU'});
 
   @Get(
     path: '/{id}' + _kApiKey,
   )
   Future<Response> _getFilmResponse(@Path('id') int id);
 
-  Future<List<FilmViewModel>> getActualFilmsList() async {
+  Future<List<FilmViewModel>> getActualFilmsList(String language) async {
     try {
-      final response = await _getActualFilmsResponse();
+      final response = await _getActualFilmsResponse(localize: language);
       if (response.isSuccessful) {
         final body = json.decode(response.bodyString) as Map<String, dynamic>;
         final playingFilmsResponse = PlayingFilmsResponse.fromJson(body);

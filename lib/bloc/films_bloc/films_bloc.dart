@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gmp/generated/l10n.dart';
 import 'package:flutter_gmp/services/http_api_service.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
 
@@ -8,8 +10,10 @@ part 'films_state.dart';
 
 class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
   final HttpApiService httpApiService;
+  final BuildContext context;
 
-  FilmsBloc({required this.httpApiService}) : super(const FilmsStateInit()) {
+  FilmsBloc({required this.httpApiService, required this.context})
+      : super(const FilmsStateInit()) {
     on<FilmsFetchedEvent>(_onFilmsFetched);
     on<AddFilmToFavoriteEvent>(_addFilmToFavorite);
     on<RemoveFilmFromFavoriteEvent>(_removeFilmFromFavorite);
@@ -20,7 +24,8 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       FilmsFetchedEvent event, Emitter<FilmsState> emit) async {
     emit(const FilmsStateProgress());
     try {
-      final films = await httpApiService.getActualFilmsList();
+      final films =
+          await httpApiService.getActualFilmsList(S.of(context).language);
 
       return emit(FilmsStateSuccess(
         filmsList: films,

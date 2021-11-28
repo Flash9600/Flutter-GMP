@@ -1,0 +1,13 @@
+{
+    "delete": "Удалить",
+    "addToFavoritesBtn": "Добавить в избраное",
+    "shareBtn": "Поделиться",
+    "error": "Ошибка",
+    "somethingWentWrong": "Что-то пошло не так",
+    "filmsLabel": "Фильмы",
+    "favoriteLabel": "Избранное",
+    "language": "ru-RU",
+    "languageCode": "ru",
+    "SwitchLanguageLabel": "Сменить язык",
+    "switchLocalize": "Switch to English"
+}
