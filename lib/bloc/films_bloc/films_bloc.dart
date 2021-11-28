@@ -21,12 +21,14 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     emit(const FilmsStateProgress());
     try {
       final films = await httpApiService.getActualFilmsList();
+
       return emit(FilmsStateSuccess(
         filmsList: films,
         filmsListView: mapFilmsListToViewModel(films),
       ));
     } catch (e) {
       print(e);
+
       return emit(const FilmsStateFailed());
     }
   }
@@ -35,8 +37,17 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       AddFilmToFavoriteEvent event, Emitter<FilmsState> emit) async {
     final succesState = state as FilmsStateSuccess;
     final favoriteFilms = [...succesState.favoriteFilms];
+
+    final filmInFavoriteAvailabiliy = succesState.favoriteFilms
+        .where((film) => film.id == event.id)
+        .isNotEmpty;
+
+    if (filmInFavoriteAvailabiliy) {
+      return;
+    }
+
     final film =
-        succesState.filmsList.where((film) => film.id == event.id).first;
+        succesState.filmsList.firstWhere((film) => film.id == event.id);
     film.isFavorite = true;
     favoriteFilms.add(film);
 
@@ -51,6 +62,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     final succesState = state as FilmsStateSuccess;
     final favoriteFilms = [...succesState.favoriteFilms];
     favoriteFilms.removeWhere((film) => film.id == event.id);
+
     return emit(succesState.copyWith(
       favoriteFilms: favoriteFilms,
       favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
