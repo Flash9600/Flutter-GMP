@@ -25,7 +25,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       return emit(
         FilmsStateSuccess(
           filmsList: films,
-          filmsListView: mapFilmsListToViewModel(films),
+          filmsListView: _mapFilmsListToViewModel(films),
         ),
       );
     } catch (e) {
@@ -37,45 +37,49 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
 
   Future<void> _addFilmToFavorite(
       AddFilmToFavoriteEvent event, Emitter<FilmsState> emit) async {
-    final succesState = state as FilmsStateSuccess;
-    final favoriteFilms = [...succesState.favoriteFilms];
+    if (state is FilmsStateSuccess) {
+      final succesState = state as FilmsStateSuccess;
+      final favoriteFilms = [...succesState.favoriteFilms];
 
-    final filmInFavoriteAvailabiliy = succesState.favoriteFilms
-        .where((film) => film.id == event.id)
-        .isNotEmpty;
+      final filmInFavoriteAvailabiliy = succesState.favoriteFilms
+          .where((film) => film.id == event.id)
+          .isNotEmpty;
 
-    if (filmInFavoriteAvailabiliy) {
-      return;
+      if (filmInFavoriteAvailabiliy) {
+        return;
+      }
+
+      final film =
+          succesState.filmsList.firstWhere((film) => film.id == event.id);
+      film.isFavorite = true;
+      favoriteFilms.add(film);
+
+      return emit(
+        succesState.copyWith(
+          favoriteFilms: favoriteFilms,
+          favoriteFilmsView: _mapFilmsListToViewModel(favoriteFilms),
+        ),
+      );
     }
-
-    final film =
-        succesState.filmsList.firstWhere((film) => film.id == event.id);
-    film.isFavorite = true;
-    favoriteFilms.add(film);
-
-    return emit(
-      succesState.copyWith(
-        favoriteFilms: favoriteFilms,
-        favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
-      ),
-    );
   }
 
   Future<void> _removeFilmFromFavorite(
       RemoveFilmFromFavoriteEvent event, Emitter<FilmsState> emit) async {
-    final succesState = state as FilmsStateSuccess;
-    final favoriteFilms = [...succesState.favoriteFilms];
-    favoriteFilms.removeWhere((film) => film.id == event.id);
+    if (state is FilmsStateSuccess) {
+      final succesState = state as FilmsStateSuccess;
+      final favoriteFilms = [...succesState.favoriteFilms];
+      favoriteFilms.removeWhere((film) => film.id == event.id);
 
-    return emit(
-      succesState.copyWith(
-        favoriteFilms: favoriteFilms,
-        favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
-      ),
-    );
+      return emit(
+        succesState.copyWith(
+          favoriteFilms: favoriteFilms,
+          favoriteFilmsView: _mapFilmsListToViewModel(favoriteFilms),
+        ),
+      );
+    }
   }
 
-  List<FilmsListViewModel> mapFilmsListToViewModel(List<FilmViewModel> films) {
+  List<FilmsListViewModel> _mapFilmsListToViewModel(List<FilmViewModel> films) {
     List<FilmsListViewModel> listViewModel = [];
 
     for (var viewModel in films) {
@@ -95,5 +99,11 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     }
 
     return listViewModel;
+  }
+
+  @override
+  onError(Object error, StackTrace stackTrace) {
+    print(error);
+    super.onError(error, stackTrace);
   }
 }
