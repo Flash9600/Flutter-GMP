@@ -12,18 +12,20 @@ class FilmsPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FilmsBloc, FilmsState>(builder: (context, state) {
-      if (state is FilmsStateSuccess) {
-        return FilmsListWidget(viewModelList: state.filmsListView);
-      } else if (state is FilmsStateProgress) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is FilmsStateFailed) {
-        return ErrorPageWidget(S.of(context).error);
-      } else {
-        return ErrorPageWidget(S.of(context).somethingWentWrong);
-      }
-    });
+    return BlocBuilder<FilmsBloc, FilmsState>(
+      builder: (context, state) {
+        if (state is FilmsStateSuccess) {
+          return FilmsListWidget(viewModelList: state.filmsListView);
+        } else if (state is FilmsStateProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is FilmsStateFailed) {
+          return ErrorPageWidget(S.of(context).error);
+        } else {
+          return ErrorPageWidget(S.of(context).somethingWentWrong);
+        }
+      },
+    );
   }
 }
