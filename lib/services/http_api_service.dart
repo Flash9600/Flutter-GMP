@@ -35,22 +35,19 @@ abstract class HttpApiService extends ChopperService {
   )
   Future<Response> _getFilmResponse(@Path('id') int id);
 
-  Future<List<FilmsListViewModel>> getActualFilmsList() async {
-    List<FilmsListViewModel> listViewModel = [];
+  Future<List<FilmViewModel>> getActualFilmsList() async {
     try {
       final response = await _getActualFilmsResponse();
-
       if (response.isSuccessful) {
         final body = json.decode(response.bodyString) as Map<String, dynamic>;
         final playingFilmsResponse = PlayingFilmsResponse.fromJson(body);
-
-        listViewModel = FilmsListViewModel.sortFilmsListToViewModel(
-            playingFilmsResponse.results);
+        return playingFilmsResponse.results;
       }
+      throw Exception('Something went wrong');
     } catch (e) {
       print(e);
+      throw Exception('Something went wrong');
     }
-    return listViewModel;
   }
 
   static String getImageUrl(String? posterPath) {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gmp/bloc/films_bloc/films_bloc.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
 import 'package:flutter_gmp/widgets/common/images.dart';
 import 'package:flutter_gmp/widgets/detail_page/detail_page.dart';
 import 'package:flutter_gmp/widgets/films_list/buttons_wrapper.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class FilmsListWidget extends StatelessWidget {
@@ -57,6 +60,8 @@ class _FilmsItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<FilmsBloc>(context);
+
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -64,42 +69,61 @@ class _FilmsItemWidget extends StatelessWidget {
           builder: (context) => DetailPageWidget(filmViewModel: filmViewModel),
         ),
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
+      child: Slidable(
+        enabled: filmViewModel.isFavorite,
+        endActionPane: ActionPane(
           children: [
-            Column(
-              children: [
-                FilmImage(
-                  path: filmViewModel.posterPath,
-                  height: 120,
-                ),
-                Text(filmViewModel.rating.toString()),
-              ],
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                constraints: const BoxConstraints(maxHeight: 160),
-                child: Column(
-                  children: [
-                    Text(filmViewModel.title),
-                    Expanded(
-                      child: Text(filmViewModel.description,
-                          overflow: TextOverflow.fade),
-                    ),
-                    ButtonsWrapperWidget(
-                      addToFavoritesOnTap: () {},
-                      shareOnTap: () {},
-                    )
-                  ],
-                ),
-              ),
+            SlidableAction(
+              onPressed: (ctx) =>
+                  bloc.add(RemoveFilmFromFavoriteEvent(id: filmViewModel.id)),
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              icon: Icons.delete,
+              label: 'Delete',
             ),
           ],
+          motion: const BehindMotion(),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  FilmImage(
+                    path: filmViewModel.posterPath,
+                    height: 120,
+                  ),
+                  Text(filmViewModel.rating.toString()),
+                ],
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Container(
+                  constraints: const BoxConstraints(maxHeight: 160),
+                  child: Column(
+                    children: [
+                      Text(filmViewModel.title),
+                      Expanded(
+                        child: Text(filmViewModel.description,
+                            overflow: TextOverflow.fade),
+                      ),
+                      ButtonsWrapperWidget(
+                        addToFavoritesOnTap: () {
+                          bloc.add(
+                              AddFilmToFavoriteEvent(id: filmViewModel.id));
+                        },
+                        shareOnTap: () {},
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
