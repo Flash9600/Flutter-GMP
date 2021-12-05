@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gmp/bloc/films_bloc/films_bloc.dart';
+import 'package:flutter_gmp/constants/language_type.dart';
 import 'package:flutter_gmp/generated/l10n.dart';
 import 'package:flutter_gmp/main.dart';
 
@@ -22,24 +23,22 @@ class DrawerWidget extends StatelessWidget {
             ),
             child: Text(S.of(context).switchLanguageLabel),
           ),
-          if (language != 'en-EN')
+          if (language != LanguageType.en)
             ListTile(
               title: const Text('Switch to English'),
               onTap: () {
-                MyApp.of(context)
-                    ?.setLocale(const Locale.fromSubtags(languageCode: 'en'));
-                bloc.add(const FilmsFetchedEvent());
-                Navigator.pop(context);
+                bloc.add(
+                  const SwitchLanguageEvent(language: LanguageType.en),
+                );
               },
             ),
-          if (language != 'ru-RU')
+          if (language != LanguageType.ru)
             ListTile(
               title: const Text('Switch to Russian'),
               onTap: () {
-                MyApp.of(context)
-                    ?.setLocale(const Locale.fromSubtags(languageCode: 'ru'));
-                bloc.add(const FilmsFetchedEvent());
-                Navigator.pop(context);
+                bloc.add(
+                  const SwitchLanguageEvent(language: LanguageType.ru),
+                );
               },
             ),
         ],

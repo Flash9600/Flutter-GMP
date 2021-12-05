@@ -1,9 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gmp/constants/language_type.dart';
 import 'package:flutter_gmp/generated/l10n.dart';
 import 'package:flutter_gmp/services/http_api_service.dart';
 import 'package:flutter_gmp/view_models/film_view_model.dart';
+
+import '../../main.dart';
 
 part 'films_event.dart';
 part 'films_state.dart';
@@ -17,6 +20,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     on<FilmsFetchedEvent>(_fetchFilms);
     on<AddFilmToFavoriteEvent>(_addFilmToFavorite);
     on<RemoveFilmFromFavoriteEvent>(_removeFilmFromFavorite);
+    on<SwitchLanguageEvent>(_switchLanguage);
     add(const FilmsFetchedEvent());
   }
 
@@ -24,8 +28,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       FilmsFetchedEvent event, Emitter<FilmsState> emit) async {
     emit(const FilmsStateProgress());
     try {
-      final films =
-          await httpApiService.getActualFilmsList(S.of(context).language);
+      final films = await httpApiService.getActualFilmsList(event.language);
 
       return emit(
         FilmsStateSuccess(
@@ -34,8 +37,6 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
         ),
       );
     } catch (e) {
-      print(e);
-
       return emit(const FilmsStateFailed());
     }
   }
@@ -82,6 +83,15 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
         ),
       );
     }
+  }
+
+  Future<void> _switchLanguage(
+      SwitchLanguageEvent event, Emitter<FilmsState> emit) async {
+    final languageCode = event.language == LanguageType.en ? 'en' : 'ru';
+    MyApp.of(context)
+        ?.setLocale(Locale.fromSubtags(languageCode: languageCode));
+    add(FilmsFetchedEvent(language: event.language));
+    Navigator.pop(context);
   }
 
   List<FilmsListViewModel> _mapFilmsListToViewModel(List<FilmViewModel> films) {
