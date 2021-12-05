@@ -9,18 +9,20 @@ class FavoritePageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FilmsBloc, FilmsState>(builder: (context, state) {
-      if (state is FilmsStateSuccess) {
-        return FilmsListWidget(viewModelList: state.favoriteFilmsView);
-      } else if (state is FilmsStateProgress) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is FilmsStateFailed) {
-        return const ErrorPageWidget('Error');
-      } else {
-        return const ErrorPageWidget('Somthing went wrong');
-      }
-    });
+    return BlocBuilder<FilmsBloc, FilmsState>(
+      builder: (context, state) {
+        if (state is FilmsStateSuccess) {
+          return FilmsListWidget(viewModelList: state.favoriteFilmsView);
+        } else if (state is FilmsStateProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is FilmsStateFailed) {
+          return const ErrorPageWidget('Error');
+        } else {
+          return const ErrorPageWidget('Somthing went wrong');
+        }
+      },
+    );
   }
 }

@@ -14,31 +14,32 @@ class DetailPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(filmViewModel.title),
-        ),
-        body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (filmViewModel.posterPath != null)
-                FilmImage(
-                  path: filmViewModel.posterPath,
-                  height: 300,
-                ),
-              const SizedBox(height: 30),
-              Text(filmViewModel.title),
-              const SizedBox(height: 20),
-              Text(filmViewModel.description),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Text(filmViewModel.rating.toString()),
-                  Text(filmViewModel.releaseDate.toString().substring(0, 10)),
-                ],
+      appBar: AppBar(
+        title: Text(filmViewModel.title),
+      ),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (filmViewModel.posterPath != null)
+              FilmImage(
+                path: filmViewModel.posterPath,
+                height: 300,
               ),
-            ],
-          ),
-        ));
+            const SizedBox(height: 30),
+            Text(filmViewModel.title),
+            const SizedBox(height: 20),
+            Text(filmViewModel.description),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Text(filmViewModel.rating.toString()),
+                Text(filmViewModel.releaseDate.toString().substring(0, 10)),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

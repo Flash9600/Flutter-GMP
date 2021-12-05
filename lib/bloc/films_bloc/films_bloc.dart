@@ -10,22 +10,24 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
   final HttpApiService httpApiService;
 
   FilmsBloc({required this.httpApiService}) : super(const FilmsStateInit()) {
-    on<FilmsFetchedEvent>(_onFilmsFetched);
+    on<FilmsFetchedEvent>(_fetchFilms);
     on<AddFilmToFavoriteEvent>(_addFilmToFavorite);
     on<RemoveFilmFromFavoriteEvent>(_removeFilmFromFavorite);
     add(const FilmsFetchedEvent());
   }
 
-  Future<void> _onFilmsFetched(
+  Future<void> _fetchFilms(
       FilmsFetchedEvent event, Emitter<FilmsState> emit) async {
     emit(const FilmsStateProgress());
     try {
       final films = await httpApiService.getActualFilmsList();
 
-      return emit(FilmsStateSuccess(
-        filmsList: films,
-        filmsListView: mapFilmsListToViewModel(films),
-      ));
+      return emit(
+        FilmsStateSuccess(
+          filmsList: films,
+          filmsListView: mapFilmsListToViewModel(films),
+        ),
+      );
     } catch (e) {
       print(e);
 
@@ -51,10 +53,12 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     film.isFavorite = true;
     favoriteFilms.add(film);
 
-    return emit(succesState.copyWith(
-      favoriteFilms: favoriteFilms,
-      favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
-    ));
+    return emit(
+      succesState.copyWith(
+        favoriteFilms: favoriteFilms,
+        favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
+      ),
+    );
   }
 
   Future<void> _removeFilmFromFavorite(
@@ -63,10 +67,12 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     final favoriteFilms = [...succesState.favoriteFilms];
     favoriteFilms.removeWhere((film) => film.id == event.id);
 
-    return emit(succesState.copyWith(
-      favoriteFilms: favoriteFilms,
-      favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
-    ));
+    return emit(
+      succesState.copyWith(
+        favoriteFilms: favoriteFilms,
+        favoriteFilmsView: mapFilmsListToViewModel(favoriteFilms),
+      ),
+    );
   }
 
   List<FilmsListViewModel> mapFilmsListToViewModel(List<FilmViewModel> films) {
@@ -78,6 +84,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
         listViewModel.last.addFilmsToList(viewModel);
         continue;
       }
+
       listViewModel.add(FilmsListViewModel(
           date: viewModel.releaseDate, filmsList: [viewModel]));
     }
@@ -86,6 +93,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       viewModel.filmsList.sort((filmFirst, filmSecond) =>
           filmFirst.rating.compareTo(filmSecond.rating));
     }
+
     return listViewModel;
   }
 }
