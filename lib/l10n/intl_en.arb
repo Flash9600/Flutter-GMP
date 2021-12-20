@@ -1,0 +1,13 @@
+{
+    "delete":"delete",
+    "addToFavoritesBtn": "ADD TO FAVORITES",
+    "shareBtn": "SHARE",
+    "error": "Error",
+    "somethingWentWrong": "Something went wrong",
+    "filmsLabel": "Films",
+    "favoriteLabel": "Favorite",
+    "language": "en-EN",
+    "languageCode": "en",
+    "switchLanguageLabel": "Switch language",
+    "switchLocalize": "Switch to Russian"
+}

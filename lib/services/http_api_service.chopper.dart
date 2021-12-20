@@ -17,9 +17,10 @@ class _$HttpApiService extends HttpApiService {
   final definitionType = HttpApiService;
 
   @override
-  Future<Response<dynamic>> _getActualFilmsResponse({String key = _kApiKey}) {
+  Future<Response<dynamic>> _getActualFilmsResponse(
+      {String key = _kApiKey, String localize = 'ru-RU'}) {
     final $url = '/3/movie/now_playing';
-    final $params = <String, dynamic>{'api_key': key};
+    final $params = <String, dynamic>{'api_key': key, 'language': localize};
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
